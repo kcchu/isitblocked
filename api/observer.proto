@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+package isitblocked.observer;
+
+option go_package = "gitlab.com/kcchu/isitblocked/api/observer";
+
+service ObserverService {
+    rpc CreateJob (CreateJobRequest) returns (CreateJobResponse);
+    rpc ListJobs (ListJobsRequest) returns (ListJobsResponse);
+    rpc GetJob (GetJobRequest) returns (Job);
+    rpc ListProbes (ListProbesRequest) returns (ListProbesResponse);
+}
+
+message CreateJobRequest {
+    string input = 1;
+    bool force_create = 2;
+}
+
+message CreateJobResponse {
+    bool created = 1;
+    int64 job_id = 2;
+}
+
+message ListJobsRequest {
+
+}
+
+message ListJobsResponse {
+
+}
+
+message GetJobRequest {
+    int64 id = 1;
+}
+
+message ListProbesRequest {
+
+}
+
+message ListProbesResponse {
+    repeated Probe probes = 1;
+}
+
+message Job {
+    int64 id = 1;
+    string website = 2;
+    string domain = 3;
+    bool hidden = 4;
+    repeated Result results = 5;
+    string created_at = 6;
+    string updated_at = 7;
+}
+
+message Result {
+    int64 id = 1;
+    int64 job_id = 2;
+    int64 probe_id = 3;
+    bool hidden = 4;
+	string dns_consistency = 5;
+    bool accessible = 6;
+    string blocking = 7;
+    string raw_data = 8;
+    string created_at = 9;
+    string updated_at = 10;
+}
+
+message Probe {
+    int64 id = 1;
+    string name = 2;
+    string asn = 3;
+    string network_name = 4;
+    string cc = 5;
+    string resolver_ip = 6;
+    string resolver_asn = 7;
+    string resolver_network_name = 8;
+    string software_name = 9;
+    string software_version = 10;
+    string last_contact = 11;
+    string created_at = 12;
+    string updated_at = 13;
+}

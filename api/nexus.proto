@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package isitblocked.nexus;
+
+option go_package = "gitlab.com/kcchu/isitblocked/api/nexus";
+
+service NexusService {
+    rpc Register (RegisterRequest) returns (RegisterResponse);
+    rpc Watch (WatchRequest) returns (WatchResponse);
+    rpc Submit (SubmitRequest) returns (SubmitResponse);
+}
+
+message RegisterRequest {
+    string token = 1;
+    string ip = 2;
+    string asn = 3;
+    string network_name = 4;
+    string country_code = 5;
+    string resolver_ip = 6;
+    string resolver_asn = 7;
+    string resolver_network_name = 8;
+    string software_name = 9;
+    string software_version = 10;
+}
+
+message RegisterResponse {
+    int64 id = 1;
+}
+
+message WatchRequest {
+    string token = 1;
+    int64 after = 2;
+}
+
+message WatchResponse {
+    int64 time = 1;
+    repeated Job jobs = 2;
+}
+
+message SubmitRequest {
+    string token = 1;
+    int64 job_id = 2;
+    string measurement = 3;
+}
+
+message SubmitResponse {
+}
+
+message Job {
+    int64 id = 1;
+    string website = 2;
+    int64 created_at = 6;
+}

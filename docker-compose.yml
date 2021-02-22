@@ -1,0 +1,32 @@
+version: "3"
+services:
+  server:
+    build: .
+    volumes:
+      - .:/src
+    working_dir: "/src"
+    environment:
+      - DATABASE_URL
+      - OBSERVER_LISTEN
+      - NEXUS_LISTEN
+    command: ["reflex", "-c", "reflex.conf"]
+  web:
+    build: web
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/src
+    working_dir: "/src/web"
+    command: ["yarn", "dev"]
+    environment:
+      - SERVER_URL
+  proxy:
+    image: envoyproxy/envoy:v1.17-latest
+    ports:
+      - "9080:9080"
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+  postgres:
+    image: postgres:12
+    environment:
+      - POSTGRES_PASSWORD=password
