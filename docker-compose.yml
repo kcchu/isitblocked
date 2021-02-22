@@ -22,7 +22,7 @@ services:
   proxy:
     image: envoyproxy/envoy:v1.17-latest
     ports:
-      - "9080:9080"
+      - "9003:9003"
     volumes:
       - ./envoy.yaml:/etc/envoy/envoy.yaml
   postgres:
