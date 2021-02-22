@@ -12,11 +12,13 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import Link from '@material-ui/core/Link'
 import Table from '@material-ui/core/Table'
+import TableContainer from '@material-ui/core/TableContainer'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
+import { Buffer } from 'buffer'
 
 import { createJob, JobStatus } from '../../stores/jobs'
 import { useAppDispatch } from '../../stores'
@@ -74,6 +76,15 @@ const ResultRow: FunctionalComponent<ResultRowProps> = (props: ResultRowProps) =
   const [open, setOpen] = useState(false)
   const classes = useRowStyles()
   const rawData = result.rawData
+  const rawDataString = Buffer.from(JSON.stringify(rawData, undefined, 2))
+  const rawDataUrl = "data:text/plain;charset=utf-8;base64," + rawDataString.toString('base64')
+
+  const onOpenRawData = (e: any) => {
+    const w = window.open()
+    if (w) {
+      w.document.write(`<body style="margin: 0"><iframe src="${rawDataUrl}" width="100%" height="100%" frameBorder="0"></iframe></body>`)
+    }
+  }
 
   return (
     <Fragment>
@@ -125,7 +136,7 @@ const ResultRow: FunctionalComponent<ResultRowProps> = (props: ResultRowProps) =
                           {rawData.test_keys.tcp_connect?.map((tcp: any) => {
                             return (
                               <Fragment>
-                                {tcp.ip}:{tcp.port} {tcp.status.failure || "OK"}<br/>
+                                {tcp.ip}:{tcp.port} -- {tcp.status.failure || "OK"}<br/>
                               </Fragment>
                             )
                           })}
@@ -139,7 +150,7 @@ const ResultRow: FunctionalComponent<ResultRowProps> = (props: ResultRowProps) =
                           {rawData.test_keys.requests?.map((request: any) => {
                             return (
                               <p>
-                                {request.request.method} {request.request.url} {request.response.code}
+                                {request.request.method} {request.request.url} -- {request.response.code}
                               </p>
                             )
                           })}
@@ -149,7 +160,7 @@ const ResultRow: FunctionalComponent<ResultRowProps> = (props: ResultRowProps) =
                   </TableBody>
                 </Table>
               </Box>
-              <Button color="primary">Download Raw Data</Button>
+              <Button onClick={onOpenRawData} color="primary">Raw Data</Button>
             </Box>
           </Collapse>
         </TableCell>
@@ -172,21 +183,23 @@ const ResultTable: FunctionalComponent<ResultTableProps> = (props: ResultTablePr
   return (
     <Box mt={6}>
       <Typography variant="h3" color="inherit" gutterBottom={true}>Details</Typography>
-      <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow>
-            <TableCell />
-            <TableCell>Probe</TableCell>
-            <TableCell>ISP</TableCell>
-            <TableCell>Blocking?</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {results.map((result) => (
-            <ResultRow key={result.id} result={result} />
-          ))}
-        </TableBody>
-      </Table>
+      <TableContainer>
+        <Table aria-label="collapsible table">
+          <TableHead>
+            <TableRow>
+              <TableCell />
+              <TableCell>Probe</TableCell>
+              <TableCell>ISP</TableCell>
+              <TableCell>Blocking?</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {results.map((result) => (
+              <ResultRow key={result.id} result={result} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Box>
   )
 }
@@ -199,10 +212,10 @@ const Result: FunctionalComponent<ResultProps> = props => {
   const { job, jobStatus } = props
   return (
     job &&
-      <Fragment>
+      <Box>
         <ResultTitle jobStatus={jobStatus} website={job.website} domain={job.domain} createdAt={job.createdAt} />
         <ResultTable jobStatus={jobStatus} results={job.resultsList} />
-      </Fragment>
+      </Box>
   )
 }
 

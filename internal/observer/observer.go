@@ -105,7 +105,7 @@ func (s *server) CreateJob(ctx context.Context, in *CreateJobRequest) (*CreateJo
 		err = validate.Struct(job)
 		if err != nil {
 			log.Errorf("validation error: %v", err)
-			return nil, status.Error(codes.Unknown, "validation error")
+			return nil, status.Error(codes.Unknown, "invalid input")
 		}
 
 		_, err = db.Model(job).Insert()

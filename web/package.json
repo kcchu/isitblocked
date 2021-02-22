@@ -32,6 +32,7 @@
     "dotenv": "^8.2.0",
     "google-protobuf": "^3.15.0-rc.1",
     "grpc-web": "^1.2.1",
+    "normalize-url": "^5.3.0",
     "preact": "^10.3.1",
     "preact-render-to-string": "^5.1.4",
     "preact-router": "^3.2.1",

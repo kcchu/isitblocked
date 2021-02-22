@@ -72,6 +72,6 @@ export const selectProbes = createSelector(
   }
 )
 
-export const selectError = (state: RootState) => state.jobs.error
+export const selectError = (state: RootState) => state.probes.error
 
 export default probesSlice.reducer

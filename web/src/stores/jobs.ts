@@ -116,7 +116,7 @@ export const selectJobStatus = (id: number) => {
       blocked = blocked || (rs.blocking !== undefined && rs.blocking !== 'false')
     })
     let status: JobStatus
-    if (job.updatedAt.isAfter(dayjs().subtract(20, 's'))) {
+    if (job.updatedAt.isAfter(dayjs().subtract(10, 's'))) {
       status = 'pending'
     } else if (results.length > 0 && done) {
       status = blocked ? 'blocked' : 'normal'
