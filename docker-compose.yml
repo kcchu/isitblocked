@@ -7,8 +7,7 @@ services:
     working_dir: "/src"
     environment:
       - DATABASE_URL
-      - OBSERVER_LISTEN
-      - NEXUS_LISTEN
+      - NEXUS_ADDRESS
     command: ["reflex", "-c", "reflex.conf"]
   web:
     build: web

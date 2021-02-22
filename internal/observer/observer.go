@@ -27,7 +27,7 @@ var validate *validator.Validate
 var logger = log.WithFields(log.Fields{"app": "observer"})
 
 func initConfig() {
-	viper.SetDefault("observer_listen", "localhost:9443")
+	viper.SetDefault("observer_listen", "0.0.0.0:9002")
 
 	viper.BindEnv("database_url")
 	viper.AutomaticEnv()

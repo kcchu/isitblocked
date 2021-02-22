@@ -1,0 +1,23 @@
+version: "3"
+services:
+  nexus:
+    image: kcchu/isitblocked:latest
+    ports:
+      - 9001:9001
+    environment:
+      - DATABASE_URL
+    command: ["nexus"]
+  observer:
+    image: kcchu/isitblocked:latest
+    environment:
+      - DATABASE_URL
+    command: ["observer"]
+  web:
+    image: kcchu/isitblocked-web:latest
+  proxy:
+    image: kcchu/isitblocked-proxy:latest
+    ports:
+      - 443:9443
+    volumes:
+      - ./server.crt:/etc/ssl/server.crt:ro
+      - ./server.key:/etc/ssl/server.key:ro

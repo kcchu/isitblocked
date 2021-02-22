@@ -17,7 +17,7 @@ import (
 )
 
 func initConfig() {
-	viper.SetDefault("nexus_address", "nexus:8443")
+	viper.SetDefault("nexus_address", "nexus:9001")
 	viper.SetDefault("num_workers", 5)
 	viper.SetDefault("backlog_size", 10)
 	viper.SetDefault("watch_interval", "5s")
@@ -54,7 +54,7 @@ func Start() {
 	}
 	config.Submitter = &nexusSubmitter{
 		client: client,
-		token: clientToken,
+		token:  clientToken,
 	}
 
 	probe, err = New(config)

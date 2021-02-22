@@ -26,7 +26,7 @@ var validate *validator.Validate
 var logger = log.WithFields(log.Fields{"app": "nexus"})
 
 func initConfig() {
-	viper.SetDefault("nexus_listen", "localhost:8443")
+	viper.SetDefault("nexus_listen", "0.0.0.0:9001")
 
 	viper.BindEnv("database_url")
 	viper.AutomaticEnv()

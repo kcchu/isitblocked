@@ -14,15 +14,6 @@ var Cmd = &cobra.Command{
 	Use:   "probe",
 	Short: "Start probe or run a test",
 	Run: func(cmd *cobra.Command, args []string) {
-		cmd.Help()
-		os.Exit(1)
-	},
-}
-
-var startCmd = &cobra.Command{
-	Use:   "start",
-	Short: "start the probe",
-	Run: func(cmd *cobra.Command, args []string) {
 		Start()
 	},
 }
@@ -50,5 +41,4 @@ func exitWithError(err error) {
 func init() {
 	testCmd.Flags().StringVarP(&out, "out", "o", "", "output file")
 	Cmd.AddCommand(testCmd)
-	Cmd.AddCommand(startCmd)
 }
